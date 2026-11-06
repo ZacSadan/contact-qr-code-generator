@@ -21,7 +21,7 @@ Turn your contact details into a QR code. Anyone can scan it with a normal phone
 - **Live vCard view** shows the exact text inside the QR code as you type, with byte count and copy button.
 - **Capacity meter + error-correction control** (auto: H with an image, M without).
 - **Downloads**: QR as PNG, `.vcf` file, and save/restore as JSON. CSV export/import is compatible with the original single-file app.
-- **Share to Google Photos**: on a phone it opens the share menu (pick Google Photos); on a computer it saves the image and opens photos.google.com to drag it in. The JPEG carries an EXIF "date taken" of 2050 so it sorts to the top of the gallery.
+- **Share to Google Photos**: on a phone it opens the share menu (pick Google Photos); on a computer it saves the image and opens photos.google.com to drag it in. Then set the photo's date to 2050 in Google Photos (*Edit date & time*) to keep it at the top. An automatic EXIF date was tried and dropped: Google Photos misreads future EXIF dates as Jan 30, 1970.
 - **Import a vCard (.vcf)** from Google Contacts, iPhone, Android or Outlook (vCard 2.1 / 3.0 / 4.0), including the contact photo.
 - **English + Hebrew (RTL)**. The language is detected from the browser and can be switched with the 🇺🇸 / 🇮🇱 flags.
 - **Responsive**: two columns on desktop; on mobile the QR code sits in a bottom sheet with a sticky preview bar.
@@ -71,9 +71,7 @@ js/fields-schema.js   every supported field (drives form, vCard, import)
 js/state.js           contact model + normalisation of untrusted input
 js/form-ui.js         schema-driven form with repeatable rows
 js/vcard.js           pure vCard 3.0 builder (escaping, folding)
-js/vcard-parse.js     vCard 2.1/3.0/4.0 parser for .vcf import
-js/exif.js            writes the EXIF "date taken" for the Google Photos share
-js/qr-render.js       QR drawing + blended center image
+js/vcard-parse.js     vCard 2.1/3.0/4.0 parser for .vcf importjs/qr-render.js       QR drawing + blended center image
 js/image-source.js    none / upload / Google / initials picker
 js/avatar.js          initials monogram generator
 js/google.js          Google Identity Services + People API (read-only)
