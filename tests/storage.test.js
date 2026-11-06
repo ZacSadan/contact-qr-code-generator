@@ -81,6 +81,9 @@ test('Google profile merge fills empty fields only unless overwrite', () => {
 
 test('default center image is initials', () => {
   assert.equal(createEmptyModel().image.mode, 'initials');
+  assert.equal(normalizeModel({ image: { mode: 'none' } }).image.mode, 'initials', 'old saves migrate');
+  assert.equal(normalizeModel({ image: { v: 2, mode: 'none' } }).image.mode, 'none', 'a new explicit "none" is kept');
+  assert.equal(normalizeModel(JSON.parse(JSON.stringify(createEmptyModel()))).image.mode, 'initials');
 });
 
 test('image size and background colour are validated', () => {

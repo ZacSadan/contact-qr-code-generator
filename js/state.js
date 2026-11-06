@@ -20,7 +20,8 @@ export function createEmptyModel() {
     ims: [],
     addresses: [emptyAddress('WORK')],
     visibleOptional: [],
-    image: { mode: 'initials', uploadDataUrl: '', font: 'cinzel', palette: 'navy-gold', ring: true, size: 'normal', bg: '' },
+    // v2: initials became the default; older saves with "none" are migrated
+    image: { v: 2, mode: 'initials', uploadDataUrl: '', font: 'cinzel', palette: 'navy-gold', ring: true, size: 'normal', bg: '' },
     ec: 'auto',
   };
 }
@@ -64,6 +65,8 @@ export function normalizeModel(raw) {
   if (isObj(raw.image)) {
     const img = raw.image;
     if (IMAGE_MODES.includes(img.mode)) m.image.mode = img.mode;
+    // Saved before initials became the default → "none" was just the old default
+    if (img.v !== 2 && img.mode === 'none') m.image.mode = 'initials';
     if (typeof img.uploadDataUrl === 'string' && img.uploadDataUrl.startsWith('data:image/')) m.image.uploadDataUrl = img.uploadDataUrl;
     if (typeof img.font === 'string') m.image.font = img.font;
     if (typeof img.palette === 'string') m.image.palette = img.palette;
