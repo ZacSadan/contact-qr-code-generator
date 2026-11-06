@@ -20,7 +20,7 @@ export function createEmptyModel() {
     ims: [],
     addresses: [emptyAddress('WORK')],
     visibleOptional: [],
-    image: { mode: 'none', uploadDataUrl: '', font: 'cinzel', palette: 'navy-gold', ring: true, size: 'normal', bg: '' },
+    image: { mode: 'initials', uploadDataUrl: '', font: 'cinzel', palette: 'navy-gold', ring: true, size: 'normal', bg: '' },
     ec: 'auto',
   };
 }
@@ -71,7 +71,7 @@ export function normalizeModel(raw) {
     if (IMAGE_SIZES.includes(img.size)) m.image.size = img.size;
     if (typeof img.bg === 'string' && /^#[0-9a-f]{6}$/i.test(img.bg)) m.image.bg = img.bg.toLowerCase();
   }
-  if (m.image.mode === 'upload' && !m.image.uploadDataUrl) m.image.mode = 'none';
+  if (m.image.mode === 'upload' && !m.image.uploadDataUrl) m.image.mode = 'initials';
 
   if (EC_LEVELS.includes(raw.ec)) m.ec = raw.ec;
   return m;

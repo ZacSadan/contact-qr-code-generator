@@ -54,7 +54,7 @@ test('normalizeModel rejects junk', () => {
   assert.equal(m.fields.evil, undefined);
   assert.deepEqual(m.phones, [{ type: 'CELL', value: 'x' }]);
   assert.equal(m.image.uploadDataUrl, '');
-  assert.equal(m.image.mode, 'none');
+  assert.equal(m.image.mode, 'initials', 'falls back to the default');
   assert.equal(m.ec, 'auto');
 });
 
@@ -77,6 +77,10 @@ test('Google profile merge fills empty fields only unless overwrite', () => {
   assert.equal(n, 4);
   mergeProfile(m, prof, true);
   assert.equal(m.fields.firstName, 'Zac');
+});
+
+test('default center image is initials', () => {
+  assert.equal(createEmptyModel().image.mode, 'initials');
 });
 
 test('image size and background colour are validated', () => {

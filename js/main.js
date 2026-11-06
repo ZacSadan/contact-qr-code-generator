@@ -16,6 +16,8 @@ applyStatic(); // translate static HTML before anything renders
 const $ = id => document.getElementById(id);
 
 let model = loadDraft() || createEmptyModel();
+// The Google session is never stored, so after a reload the Google photo is gone: use the default.
+if (model.image.mode === 'google') model.image.mode = 'initials';
 const getModel = () => model;
 
 const canvas = $('qrCanvas');
@@ -130,7 +132,9 @@ function connectGoogle() {
   google.connect().then(profile => {
     const overwrite = google.hasConflicts(model, profile) ? window.confirm(t('googleOverwrite')) : true;
     const n = google.mergeProfile(model, profile, overwrite);
-    if (model.image.mode === 'none' && google.getPhoto()) model.image.mode = 'google';
+    // Google photo becomes the default center image — unless the user uploaded their own
+    const ownUpload = model.image.mode === 'upload' && model.image.uploadDataUrl;
+    if (google.getPhoto() && !ownUpload) model.image.mode = 'google';
     form.rebuild();
     imageSource.sync();
     syncGoogleBox();
@@ -145,6 +149,7 @@ function connectGoogle() {
 $('googleConnect').addEventListener('click', connectGoogle);
 $('googleDisconnect').addEventListener('click', () => {
   google.disconnect();
+  if (model.image.mode === 'google') { model.image.mode = 'initials'; imageSource.sync(); }
   syncGoogleBox();
   scheduleRender();
   toast(t('googleDisconnected'));
