@@ -109,7 +109,9 @@ function prepareShareFile(seq) {
     if (!blob || seq !== renderSeq) return;
     const bytes = addExifDate(new Uint8Array(await blob.arrayBuffer()), PHOTO_DATE);
     if (seq !== renderSeq) return;
-    shareFile = new File([bytes], contactFileName(model, 'qr', 'jpg'), { type: 'image/jpeg', lastModified: PHOTO_DATE.getTime() });
+    // Only the EXIF carries 2050. A future File.lastModified is misread by
+    // Google Photos (it showed Jan 30, 1970), so the file keeps the current time.
+    shareFile = new File([bytes], contactFileName(model, 'qr', 'jpg'), { type: 'image/jpeg' });
   }, 'image/jpeg', 0.95);
 }
 
