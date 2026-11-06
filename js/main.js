@@ -9,6 +9,7 @@ import * as google from './google.js';
 import { toJSON, fromJSON, modelToLegacyCSV, legacyCSVToModel, saveDraft, loadDraft, clearDraft, contactFileName } from './storage.js';
 import { toast, downloadBlob, readFile } from './ui.js';
 import { parseVCard } from './vcard-parse.js';
+import { addExifDate } from './exif.js';
 import { t, applyStatic, setLang } from './i18n.js';
 
 applyStatic(); // translate static HTML before anything renders
@@ -52,6 +53,7 @@ function setQrVisible(ok, message) {
   canvas.hidden = !ok;
   placeholder.hidden = ok;
   downloadBtn.disabled = !ok;
+  $('sharePhotosBtn').disabled = !ok;
   downloadVcfBtn.disabled = !lastVCard;
   qrError.hidden = !message;
   qrError.textContent = message ? '⚠ ' + message : '';
@@ -89,10 +91,48 @@ async function render() {
     const logoSize = model.image.mode === 'initials' ? model.image.size : 'normal';
     renderQR(canvas, lastVCard, { ec, logo, logoSize });
     setQrVisible(true);
+    prepareShareFile(seq);
   } catch {
     setQrVisible(false, t('tooMuchData'));
   }
 }
+
+// ===== Share to Google Photos =====
+// The JPEG is prepared right after each render, so the click handler can call
+// navigator.share() immediately (Safari requires it inside the user gesture).
+const PHOTO_DATE = new Date(2050, 0, 1, 12, 0, 0); // keeps the image at the top of a date-sorted gallery
+let shareFile = null;
+
+function prepareShareFile(seq) {
+  shareFile = null;
+  canvas.toBlob(async blob => {
+    if (!blob || seq !== renderSeq) return;
+    const bytes = addExifDate(new Uint8Array(await blob.arrayBuffer()), PHOTO_DATE);
+    if (seq !== renderSeq) return;
+    shareFile = new File([bytes], contactFileName(model, 'qr', 'jpg'), { type: 'image/jpeg', lastModified: PHOTO_DATE.getTime() });
+  }, 'image/jpeg', 0.95);
+}
+
+const isMobile = () => navigator.userAgentData?.mobile ??
+  (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1));
+
+$('sharePhotosBtn').addEventListener('click', () => {
+  if (!shareFile) return toast(t('shareNotReady'), 'error');
+  const file = shareFile;
+  if (isMobile() && navigator.canShare?.({ files: [file] })) {
+    // Phone: system share sheet → the user picks Google Photos
+    navigator.share({ files: [file], title: file.name }).catch(err => {
+      if (err?.name === 'AbortError') return; // user closed the share sheet
+      downloadBlob(file, file.name);
+      toast(t('shareFallback'));
+    });
+    return;
+  }
+  // Computer: no share target for Google Photos → open it and save the file to drag in
+  window.open('https://photos.google.com/', '_blank', 'noopener');
+  downloadBlob(file, file.name);
+  toast(t('photosDesktop'));
+});
 
 // ===== modules =====
 const form = createForm({ container: $('formFields'), addSelect: $('addFieldSelect'), getModel, onChange: scheduleRender });

@@ -42,55 +42,75 @@ function isFinder(r, c, n) {
   return (r < 8 && c < 8) || (r < 8 && c >= n - 8) || (r >= n - 8 && c < 8);
 }
 
-function drawFinders(ctx, n, quiet, cell) {
+/** Draw the 3 finder patterns; `colorAt(r, c)` returns the dark colour for a corner. */
+function drawFinders(ctx, n, quiet, cell, colorAt = () => QR_COLOR) {
   for (const [fr, fc] of [[0, 0], [0, n - 7], [n - 7, 0]]) {
     const x = (fc + quiet) * cell;
     const y = (fr + quiet) * cell;
+    const dark = colorAt(fr + 3, fc + 3);
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(x - cell, y - cell, cell * 9, cell * 9); // separator
-    ctx.fillStyle = QR_COLOR;
+    ctx.fillStyle = dark;
     ctx.fillRect(x, y, cell * 7, cell * 7);
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(x + cell, y + cell, cell * 5, cell * 5);
-    ctx.fillStyle = QR_COLOR;
+    ctx.fillStyle = dark;
     ctx.fillRect(x + cell * 2, y + cell * 2, cell * 3, cell * 3);
   }
 }
 
+// ----- colour helpers for "full" mode -----
+const lin = v => { const s = v / 255; return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4; };
+const lum = ([r, g, b]) => 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+const css = ([r, g, b]) => `rgb(${Math.round(r)},${Math.round(g)},${Math.round(b)})`;
+const DARK_MAX = 0.07;  // luminance ceiling for dark modules
+const LIGHT_MIN = 0.5;  // luminance floor for light modules (≈ 4.6:1 contrast)
+
+/** Same hue, darkened until it is dark enough to read as a "dark" module. */
+function asDark(rgb) {
+  let c = rgb;
+  for (let i = 0; i < 40 && lum(c) > DARK_MAX; i++) c = c.map(v => v * 0.88);
+  return c;
+}
+/** Same hue, lightened (mixed with white) until it reads as a "light" module. */
+function asLight(rgb) {
+  let c = rgb;
+  for (let i = 0; i < 40 && lum(c) < LIGHT_MIN; i++) c = c.map(v => v + (255 - v) * 0.12);
+  return c;
+}
+
 /**
- * "Full" mode: the image sits behind the whole code. It is faded so the
- * code keeps contrast, every module becomes a dot, and the three finder
- * patterns stay solid so cameras can lock on.
+ * "Full" mode: the image spreads over the whole code. Every module keeps
+ * its normal square shape, but takes its colour from the image underneath:
+ * dark modules get a deep shade of that colour, light modules a pale tint.
+ * The picture shows through as colour while the dark/light contrast that
+ * scanners read stays guaranteed. Finder patterns stay solid.
  */
 function renderFull(ctx, qr, modules, quiet, cell, size, logo) {
   ctx.fillStyle = '#ffffff';
   ctx.fillRect(0, 0, size, size);
-  const x0 = quiet * cell;
-  const span = modules * cell;
-  ctx.save();
-  roundRect(ctx, x0, x0, span, span, cell * 1.5);
-  ctx.clip();
-  ctx.globalAlpha = 0.5;
-  drawCover(ctx, logo, x0, x0, span, span);
-  ctx.restore();
+
+  // sample the image: one averaged pixel per module
+  const s = document.createElement('canvas');
+  s.width = s.height = modules;
+  const sctx = s.getContext('2d', { willReadFrequently: true });
+  sctx.imageSmoothingQuality = 'high';
+  drawCover(sctx, logo, 0, 0, modules, modules);
+  const px = sctx.getImageData(0, 0, modules, modules).data;
 
   for (let r = 0; r < modules; r++) {
     for (let c = 0; c < modules; c++) {
       if (isFinder(r, c, modules)) continue;
-      const dark = qr.isDark(r, c);
-      ctx.fillStyle = dark ? QR_COLOR : '#ffffff';
-      if (r === 6 || c === 6) {
-        // timing patterns: solid squares help cameras find the grid
-        ctx.fillRect((c + quiet) * cell, (r + quiet) * cell, cell + 0.5, cell + 0.5);
-        continue;
-      }
-      // big dots so they survive camera downscaling; image shows in the gaps
-      ctx.beginPath();
-      ctx.arc((c + quiet + 0.5) * cell, (r + quiet + 0.5) * cell, cell * (dark ? 0.43 : 0.36), 0, Math.PI * 2);
-      ctx.fill();
+      const i = (r * modules + c) * 4;
+      const rgb = [px[i], px[i + 1], px[i + 2]];
+      ctx.fillStyle = css(qr.isDark(r, c) ? asDark(rgb) : asLight(rgb));
+      ctx.fillRect((c + quiet) * cell, (r + quiet) * cell, cell + 0.5, cell + 0.5);
     }
   }
-  drawFinders(ctx, modules, quiet, cell);
+  drawFinders(ctx, modules, quiet, cell, (r, c) => {
+    const i = (r * modules + c) * 4;
+    return css(asDark([px[i], px[i + 1], px[i + 2]]));
+  });
 }
 
 /**

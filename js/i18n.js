@@ -25,6 +25,9 @@ const en = {
   restored: n => `Restored ${n} field${n === 1 ? '' : 's'}.`,
   importFailed: 'Could not read that file. Use a JSON or CSV saved from this app, or a vCard (.vcf) file.',
   vcfInvalid: 'That file does not contain a vCard contact.',
+  shareNotReady: 'The image is still being prepared. Try again in a second.',
+  shareFallback: 'Sharing is not available here, so the image was downloaded instead.',
+  photosDesktop: 'Image saved. Google Photos opened in a new tab: drag the downloaded file into it to upload.',
   restoredVcf: (n, cards, photo) => `Imported ${n} field${n === 1 ? '' : 's'}${photo ? ' and the photo' : ''} from the vCard.` +
     (cards > 1 ? ` The file has ${cards} contacts, so only the first was imported.` : ''),
   csvNeedsRows: 'CSV must contain a header row and a data row.',
@@ -77,6 +80,9 @@ const he = {
   restored: n => (n === 1 ? 'שוחזר שדה אחד.' : `שוחזרו ${n} שדות.`),
   importFailed: 'לא ניתן לקרוא את הקובץ. השתמשו בקובץ JSON או CSV שנשמר מהאפליקציה הזו, או בקובץ vCard ‏(vcf).',
   vcfInvalid: 'הקובץ לא מכיל איש קשר בפורמט vCard.',
+  shareNotReady: 'התמונה עדיין בהכנה. נסו שוב בעוד רגע.',
+  shareFallback: 'שיתוף לא זמין כאן, לכן התמונה הורדה במקום.',
+  photosDesktop: 'התמונה נשמרה. Google Photos נפתח בלשונית חדשה: גררו אליו את הקובץ שהורד כדי להעלות אותו.',
   restoredVcf: (n, cards, photo) => `${n === 1 ? 'יובא שדה אחד' : `יובאו ${n} שדות`}${photo ? ' והתמונה' : ''} מקובץ ה-vCard.` +
     (cards > 1 ? ` בקובץ יש ${cards} אנשי קשר, ולכן יובא רק הראשון.` : ''),
   csvNeedsRows: 'קובץ ה-CSV חייב לכלול שורת כותרות ושורת נתונים.',
@@ -239,6 +245,8 @@ const he = {
   'qr.placeholder': 'הזינו שם כדי ליצור<br>את קוד ה-QR',
   'qr.png': '⬇ הורדת PNG',
   'qr.vcf': '⬇ הורדת קובץ vcf',
+  'qr.photos': '📤 שיתוף ל-Google Photos',
+  'qr.photosHint': 'בטלפון: בחרו Google Photos בתפריט השיתוף. במחשב: התמונה נשמרת ו-Google Photos נפתח כדי שתגררו אותה פנימה. התמונה מתוארכת לשנת 2050 כדי שתישאר תמיד בראש הגלריה.',
   'qr.ec': 'תיקון שגיאות',
   'qr.ecAuto': 'אוטומטי (H עם תמונה, M בלי)',
   'qr.ecL': 'L: ‏7%, הכי הרבה מידע',

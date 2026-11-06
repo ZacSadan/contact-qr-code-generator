@@ -13,7 +13,7 @@ Turn your contact details into a QR code. Anyone can scan it with a normal phone
 - **vCard 3.0 QR code** that works with the built-in iPhone and Android camera apps (UTF-8, so Hebrew and other scripts work).
 - **Every common vCard field**, with repeatable rows: several phones, emails, websites, social profiles, messaging accounts and addresses. Optional fields (prefix, middle name, nickname, department, birthday, anniversary, categories, time zone, location…) are behind "＋ Add another field".
 - **Center image, 4 modes.** The default is *Initials*, or *Google photo* once you sign in with Google and your account has a photo.
-  - *Initials*: a generated monogram (e.g. *Zac Sadan* → **ZS**) with a choice of fonts, color palettes or any custom background color (the text color adapts automatically). Three sizes: *Normal* (center), *Large* (center) and *Full* (behind the whole code, drawn as dots with solid corner markers). It can also be downloaded as an avatar PNG.
+  - *Initials*: a generated monogram (e.g. *Zac Sadan* → **ZS**) with a choice of fonts, color palettes or any custom background color (the text color adapts automatically). Three sizes: *Normal* (center), *Large* (center) and *Full* (spread over the whole code: every square takes its color from the monogram, shaded dark or light so it still scans). It can also be downloaded as an avatar PNG.
   - *Google photo*: your Google profile picture (needs Google sign-in)
   - *Upload*: your own image, blended into the QR pattern
   - *None*: a plain QR code
@@ -21,6 +21,7 @@ Turn your contact details into a QR code. Anyone can scan it with a normal phone
 - **Live vCard view** shows the exact text inside the QR code as you type, with byte count and copy button.
 - **Capacity meter + error-correction control** (auto: H with an image, M without).
 - **Downloads**: QR as PNG, `.vcf` file, and save/restore as JSON. CSV export/import is compatible with the original single-file app.
+- **Share to Google Photos**: on a phone it opens the share menu (pick Google Photos); on a computer it saves the image and opens photos.google.com to drag it in. The JPEG carries an EXIF "date taken" of 2050 so it sorts to the top of the gallery.
 - **Import a vCard (.vcf)** from Google Contacts, iPhone, Android or Outlook (vCard 2.1 / 3.0 / 4.0), including the contact photo.
 - **English + Hebrew (RTL)**. The language is detected from the browser and can be switched with the 🇺🇸 / 🇮🇱 flags.
 - **Responsive**: two columns on desktop; on mobile the QR code sits in a bottom sheet with a sticky preview bar.
@@ -71,6 +72,7 @@ js/state.js           contact model + normalisation of untrusted input
 js/form-ui.js         schema-driven form with repeatable rows
 js/vcard.js           pure vCard 3.0 builder (escaping, folding)
 js/vcard-parse.js     vCard 2.1/3.0/4.0 parser for .vcf import
+js/exif.js            writes the EXIF "date taken" for the Google Photos share
 js/qr-render.js       QR drawing + blended center image
 js/image-source.js    none / upload / Google / initials picker
 js/avatar.js          initials monogram generator
