@@ -3,7 +3,7 @@
 import { SECTIONS, SINGLE_FIELDS, MULTI_FIELDS, ADDRESS_TYPES, ADDRESS_PARTS } from './fields-schema.js';
 import { emptyAddress } from './state.js';
 import { h } from './ui.js';
-import { tr } from './i18n.js';
+import { tr, getLang } from './i18n.js';
 
 const typeLabel = (listKey, value, english) => tr(`type.${listKey}.${value}`, tr(`type.${value}`, english));
 
@@ -24,9 +24,17 @@ export function createForm({ container, addSelect, getModel, onChange }) {
         id, 'data-key': f.key, dir: 'auto', placeholder: tr(`ph.${f.key}`, f.placeholder || ''), value: model.fields[f.key] || '',
         oninput: e => { getModel().fields[f.key] = e.target.value; onChange(); },
       };
+      // Suggestions (datalist): common values to pick from, free text still allowed.
+      // Hebrew UI shows the Hebrew list first, then the English one.
+      let datalist = null;
+      if (f.suggestions) {
+        const lists = getLang() === 'en' ? [f.suggestions.en] : [f.suggestions[getLang()], f.suggestions.en];
+        const values = [...new Set(lists.flat().filter(Boolean))];
+        datalist = h('datalist', { id: `dl-${f.key}` }, values.map(v => h('option', { value: v })));
+      }
       const input = f.type === 'textarea'
         ? h('textarea', common)
-        : h('input', { ...common, type: f.type || 'text', autocomplete: autocompleteFor(f.key) });
+        : h('input', { ...common, type: f.type || 'text', autocomplete: datalist ? 'off' : autocompleteFor(f.key), list: datalist ? `dl-${f.key}` : null });
       const label = h('label', { for: id }, labelText);
       const head = f.optional
         ? h('div', { class: 'label-row' }, label, removeBtn(`${tr('form.remove')} ${labelText}`, () => {
@@ -36,7 +44,7 @@ export function createForm({ container, addSelect, getModel, onChange }) {
           rebuild(); onChange();
         }))
         : label;
-      return h('div', { class: `field${f.type === 'textarea' ? ' span-all' : ''}` }, head, input);
+      return h('div', { class: `field${f.type === 'textarea' ? ' span-all' : ''}` }, head, input, datalist);
     }));
   }
 

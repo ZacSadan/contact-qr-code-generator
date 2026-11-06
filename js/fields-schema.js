@@ -19,11 +19,23 @@ export const SECTIONS = [
  * picks them from "Add another field" (or until they hold a value).
  */
 export const SINGLE_FIELDS = [
-  { key: 'prefix', section: 'name', label: 'Prefix', placeholder: 'Dr.', optional: true },
   { key: 'firstName', section: 'name', label: 'First name *', placeholder: 'John' },
-  { key: 'middleName', section: 'name', label: 'Middle name', placeholder: '', optional: true },
   { key: 'lastName', section: 'name', label: 'Last name', placeholder: 'Doe' },
-  { key: 'suffix', section: 'name', label: 'Suffix', placeholder: 'Jr.', optional: true },
+  { key: 'middleName', section: 'name', label: 'Middle name(s)', placeholder: 'Michael' },
+  {
+    key: 'prefix', section: 'name', label: 'Prefix', placeholder: 'Dr.',
+    // suggestions only — free text is always allowed
+    suggestions: {
+      en: ['Mr.', 'Mrs.', 'Ms.', 'Miss', 'Mx.', 'Dr.', 'Prof.', 'Adv.', 'Eng.', 'Rabbi', 'Rev.', 'Hon.', 'Sir', 'Dame'],
+      he: ['מר', 'גב׳', 'ד״ר', 'פרופ׳', 'עו״ד', 'רו״ח', 'מהנדס/ת', 'אדריכל/ית', 'הרב', 'הרבנית', 'רס״ן', 'סא״ל', 'אל״ם', 'תא״ל'],
+    },
+  },
+  {
+    key: 'suffix', section: 'name', label: 'Suffix', placeholder: 'Jr., PhD',
+    suggestions: {
+      en: ['Jr.', 'Sr.', 'II', 'III', 'IV', 'PhD', 'MD', 'DDS', 'MBA', 'MSc', 'MA', 'BSc', 'BA', 'CPA', 'Esq.', 'RN', 'PE'],
+    },
+  },
   { key: 'nickname', section: 'name', label: 'Nickname', placeholder: 'Johnny', optional: true },
   { key: 'phoneticFirst', section: 'name', label: 'Phonetic first name', placeholder: '', optional: true },
   { key: 'phoneticLast', section: 'name', label: 'Phonetic last name', placeholder: '', optional: true },
