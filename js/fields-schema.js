@@ -36,6 +36,7 @@ export const SINGLE_FIELDS = [
       en: ['Jr.', 'Sr.', 'II', 'III', 'IV', 'PhD', 'MD', 'DDS', 'MBA', 'MSc', 'MA', 'BSc', 'BA', 'CPA', 'Esq.', 'RN', 'PE'],
     },
   },
+  { key: 'birthday', section: 'name', label: 'Birthday', type: 'date' },
   { key: 'nickname', section: 'name', label: 'Nickname', placeholder: 'Johnny', optional: true },
   { key: 'phoneticFirst', section: 'name', label: 'Phonetic first name', placeholder: '', optional: true },
   { key: 'phoneticLast', section: 'name', label: 'Phonetic last name', placeholder: '', optional: true },
@@ -46,7 +47,6 @@ export const SINGLE_FIELDS = [
   { key: 'role', section: 'work', label: 'Role', placeholder: 'Team lead', optional: true },
 
   { key: 'notes', section: 'more', label: 'Notes', placeholder: 'Anything extra…', type: 'textarea' },
-  { key: 'birthday', section: 'more', label: 'Birthday', type: 'date', optional: true },
   { key: 'anniversary', section: 'more', label: 'Anniversary', type: 'date', optional: true },
   { key: 'categories', section: 'more', label: 'Categories (comma separated)', placeholder: 'Friends, Work', optional: true },
   { key: 'timezone', section: 'more', label: 'Time zone (UTC offset)', placeholder: '+02:00', optional: true },

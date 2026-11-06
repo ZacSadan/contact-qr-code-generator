@@ -11,7 +11,7 @@ Turn your contact details into a QR code. Anyone can scan it with a normal phone
 ## Features
 
 - **vCard 3.0 QR code** that works with the built-in iPhone and Android camera apps (UTF-8, so Hebrew and other scripts work).
-- **Every common vCard field**, with repeatable rows: several phones, emails, websites, social profiles, messaging accounts and addresses. The name section has first, last and middle name, plus prefix and suffix with suggestion lists (Mr., Dr., Prof., עו״ד… / Jr., PhD, MBA…) that still accept free text. Optional fields (nickname, department, birthday, anniversary, categories, time zone, location…) are behind "＋ Add another field".
+- **Every common vCard field**, with repeatable rows: several phones, emails, websites, social profiles, messaging accounts and addresses. The name section has first, last and middle name, plus prefix and suffix with suggestion lists (Mr., Dr., Prof., עו״ד… / Jr., PhD, MBA…) that still accept free text, and a birthday picker. Optional fields (nickname, department, anniversary, categories, time zone, location…) are behind "＋ Add another field".
 - **Center image, 4 modes.** The default is *Initials*, or *Google photo* once you sign in with Google and your account has a photo.
   - *Initials*: a generated monogram (e.g. *Zac Sadan* → **ZS**) with a choice of fonts, color palettes or any custom background color (the text color adapts automatically). Three sizes: *Normal* (center), *Large* (center) and *Full* (spread over the whole code: every square takes its color from the monogram, shaded dark or light so it still scans). It can also be downloaded as an avatar PNG.
   - *Google photo*: your Google profile picture (needs Google sign-in)

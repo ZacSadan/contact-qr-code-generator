@@ -48,7 +48,7 @@ test('Google Contacts export (vCard 3.0, photo URL, item labels)', () => {
   assert.equal(model.addresses[0].city, 'Tel Aviv');
   assert.equal(model.addresses[0].type, 'HOME');
   assert.equal(photo.src, 'https://lh3.googleusercontent.com/contacts/abc');
-  assert.ok(model.visibleOptional.includes('birthday'));
+  assert.ok(!model.visibleOptional.includes('birthday'), 'birthday is always shown');
 });
 
 test('iPhone export (folded base64 photo, Apple labels, IMPP)', () => {

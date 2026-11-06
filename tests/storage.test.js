@@ -41,11 +41,13 @@ test('JSON round trip', () => {
   const m = createEmptyModel();
   m.fields.firstName = 'Zac';
   m.fields.birthday = '2000-01-01';
+  m.fields.anniversary = '2010-01-01';
   m.socials = [{ type: 'GITHUB', value: 'zac' }];
   const back = fromJSON(toJSON(m));
   assert.equal(back.fields.firstName, 'Zac');
+  assert.equal(back.fields.birthday, '2000-01-01');
   assert.deepEqual(back.socials, m.socials);
-  assert.ok(back.visibleOptional.includes('birthday'), 'filled optional fields become visible');
+  assert.ok(back.visibleOptional.includes('anniversary'), 'filled optional fields become visible');
 });
 
 test('normalizeModel rejects junk', () => {
