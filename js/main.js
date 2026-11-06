@@ -9,6 +9,7 @@ import * as google from './google.js';
 import { toJSON, fromJSON, modelToLegacyCSV, legacyCSVToModel, saveDraft, loadDraft, clearDraft, contactFileName } from './storage.js';
 import { toast, downloadBlob, readFile } from './ui.js';
 import { parseVCard } from './vcard-parse.js';
+import { addExifDate } from './exif.js';
 import { t, applyStatic, setLang } from './i18n.js';
 
 applyStatic(); // translate static HTML before anything renders
@@ -97,18 +98,24 @@ async function render() {
 }
 
 // ===== Share to Google Photos =====
-// The PNG is prepared right after each render, so the click handler can call
+// The JPEG is prepared right after each render, so the click handler can call
 // navigator.share() immediately (Safari requires it inside the user gesture).
-// No future "date taken" is embedded: Google Photos misreads EXIF dates like
-// 2050 as Jan 30, 1970, so the user sets the date in Google Photos instead.
+//
+// "Date taken" is set to 19 Sep 2037 so the image sorts to the top of the gallery.
+// It must stay before 19 Jan 2038 (the 32-bit seconds limit): Google Photos
+// misread 2050 as Jan 30, 1970, i.e. treated the too-large seconds value as ms.
+// The File keeps its normal timestamp; only the EXIF carries the date.
+const PHOTO_DATE = new Date(2037, 8, 19, 12, 0, 0);
 let shareFile = null;
 
 function prepareShareFile(seq) {
   shareFile = null;
-  canvas.toBlob(blob => {
+  canvas.toBlob(async blob => {
     if (!blob || seq !== renderSeq) return;
-    shareFile = new File([blob], contactFileName(model, 'qr', 'png'), { type: 'image/png' });
-  }, 'image/png');
+    const bytes = addExifDate(new Uint8Array(await blob.arrayBuffer()), PHOTO_DATE);
+    if (seq !== renderSeq) return;
+    shareFile = new File([bytes], contactFileName(model, 'qr', 'jpg'), { type: 'image/jpeg' });
+  }, 'image/jpeg', 0.95);
 }
 
 const isMobile = () => navigator.userAgentData?.mobile ??
