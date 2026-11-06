@@ -1,0 +1,14 @@
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
+.env
+.env.*
+# personal exports made while testing — never commit contact data
+contact-*.json
+contact-*.csv
+contact-*.vcf
+qr-*.png
+avatar-*.png

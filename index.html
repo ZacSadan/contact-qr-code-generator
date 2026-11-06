@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Contact QR Code Generator</title>
+<meta name="description" content="Turn your contact details into a QR code. Anyone scans it with their phone camera and saves you to their contacts in one tap. Runs 100% in your browser.">
+<meta name="theme-color" content="#0f172a">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<!-- Only the sources this page really needs (see README › Dependencies). -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/ https://accounts.google.com/gsi/client; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://accounts.google.com/gsi/style; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://*.googleusercontent.com; connect-src 'self' https://people.googleapis.com https://www.googleapis.com https://*.googleusercontent.com https://accounts.google.com/gsi/; frame-src https://accounts.google.com/gsi/; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📇</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Cormorant+Garamond:wght@600&family=Frank+Ruhl+Libre:wght@600&family=Heebo:wght@600&family=Inter:wght@600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" integrity="sha384-mZT2gIty7ZDdOGkxfP6joZcYdMW1Jvj9dRlfpTmaJAKKXTqzygtB22k7FLe+KZC1" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="module" src="js/main.js"></script>
+</head>
+<body>
+<div class="container">
+  <header class="site-header">
+    <div class="lang-switch" role="group" aria-label="Language" data-i18n-attr="aria-label:lang.label">
+      <button type="button" class="lang-btn" data-lang-btn="en" aria-pressed="true" title="English" aria-label="English">
+        <svg viewBox="0 0 30 20" width="30" height="20" aria-hidden="true">
+          <defs><pattern id="usStars" width="2.4" height="2.15" patternUnits="userSpaceOnUse"><circle cx="1.2" cy="1.08" r="0.42" fill="#fff"/></pattern></defs>
+          <rect width="30" height="20" fill="#b22234"/>
+          <path d="M0 2.31h30M0 5.38h30M0 8.46h30M0 11.54h30M0 14.62h30M0 17.69h30" stroke="#fff" stroke-width="1.54"/>
+          <rect width="12" height="10.77" fill="#3c3b6e"/>
+          <rect width="12" height="10.77" fill="url(#usStars)"/>
+        </svg>
+      </button>
+      <button type="button" class="lang-btn" data-lang-btn="he" aria-pressed="false" title="עברית" aria-label="עברית">
+        <svg viewBox="0 0 220 160" width="30" height="20" aria-hidden="true">
+          <rect width="220" height="160" fill="#fff"/>
+          <rect y="15" width="220" height="25" fill="#0038b8"/>
+          <rect y="120" width="220" height="25" fill="#0038b8"/>
+          <path d="M110 51 L135.1 94.5 L84.9 94.5 Z M110 109 L135.1 65.5 L84.9 65.5 Z" fill="none" stroke="#0038b8" stroke-width="5.5"/>
+        </svg>
+      </button>
+    </div>
+    <h1 data-i18n="header.title">📇 Contact QR Code Generator</h1>
+    <p data-i18n="header.sub">Fill in your details once. Anyone can scan the code with their phone camera and save you to their contacts in one tap.</p>
+  </header>
+
+  <section class="privacy-banner" aria-label="Privacy">
+    <div class="privacy-icon" aria-hidden="true">🔒</div>
+    <div>
+      <p class="privacy-headline" data-i18n="privacy.headline">Your data never leaves your browser.</p>
+      <p class="privacy-text" data-i18n="privacy.text"><strong>No server. No database. No uploads. No tracking.</strong>
+        This page is plain JavaScript running on your own device. The QR code, the photo and every field you type are
+        created right here, and nothing is sent to us or to any cloud server. That's the whole point, and it's why this is so cool.</p>
+      <p class="privacy-small" data-i18n="privacy.small">Your progress is kept as a draft in <em>this browser only</em> (clear it any time with “Clear form”).
+        If you choose to connect Google, your browser reads your basic profile directly from Google. It never passes through anyone else.</p>
+    </div>
+  </section>
+
+  <!-- ===== WHY ===== -->
+  <section class="why">
+    <h2 data-i18n="why.title">Why is this cool?</h2>
+    <div class="why-grid">
+      <article class="card why-card">
+        <div class="why-icon" aria-hidden="true">🙋</div>
+        <h3 data-i18n="why.you.title">For you</h3>
+        <p data-i18n="why.you.p1"><strong>Your contact card, always one tap away.</strong> Download the QR code and save it to Google Photos.</p>
+        <p data-i18n="why.you.p2"><strong>Pro tip:</strong> open the photo, choose <em>Edit date &amp; time</em> and set the year to <strong>2050</strong>.
+          Because Google Photos sorts by date, your QR code stays pinned at the very top of your gallery.</p>
+        <p data-i18n="why.you.p3">Want it even closer? Photo-widget apps such as
+          <a href="https://play.google.com/store/apps/details?id=com.nbow.photowidget" target="_blank" rel="noopener noreferrer">Photo Widget</a>
+          can put it right on your phone's home screen.</p>
+      </article>
+      <article class="card why-card">
+        <div class="why-icon" aria-hidden="true">📱</div>
+        <h3 data-i18n="why.scan.title">For the person scanning</h3>
+        <p data-i18n="why.scan.p1"><strong>No app, no typing, no spelling mistakes.</strong> They just point their phone camera at the code.</p>
+        <p data-i18n="why.scan.p2">The contacts app opens automatically with all your details already filled in: name, phones, emails, websites, company and address.
+          All they do is tap <strong>Save</strong>.</p>
+      </article>
+      <article class="card why-card why-privacy">
+        <div class="why-icon" aria-hidden="true">🔒</div>
+        <h3 data-i18n="why.privacy.title">For your privacy</h3>
+        <p data-i18n="why.privacy.p"><strong>Everything happens in your browser.</strong> There is no server behind this page, so there is nothing to hack,
+          sell or leak. Your details live only on your device and inside the QR code you choose to share.</p>
+      </article>
+    </div>
+  </section>
+
+  <div class="layout">
+    <!-- ===== FORM ===== -->
+    <main class="card form-card">
+      <section class="google-box">
+        <div class="google-info">
+          <img id="googleAvatar" class="google-avatar" alt="" hidden>
+          <div>
+            <strong id="googleTitle"></strong>
+            <span id="googleSub"></span>
+          </div>
+        </div>
+        <div class="google-actions">
+          <button type="button" class="btn btn-google" id="googleConnect"></button>
+          <button type="button" class="btn btn-ghost" id="googleDisconnect" data-i18n="google.disconnect" hidden>Disconnect</button>
+        </div>
+      </section>
+
+      <div id="formFields"></div>
+      <select id="addFieldSelect" class="add-field-select" aria-label="Add another field"></select>
+
+      <section class="form-section">
+        <h2 class="section-title" data-i18n="image.title">Center image</h2>
+        <div class="segmented" role="radiogroup" aria-label="Center image" data-i18n-attr="aria-label:image.title">
+          <label><input type="radio" name="imageMode" value="none"><span data-i18n="image.none">None</span></label>
+          <label><input type="radio" name="imageMode" value="upload"><span data-i18n="image.upload">Upload</span></label>
+          <label><input type="radio" name="imageMode" value="google"><span data-i18n="image.google">Google photo</span></label>
+          <label><input type="radio" name="imageMode" value="initials"><span data-i18n="image.initials">Initials</span></label>
+        </div>
+
+        <div class="image-panel" data-panel="none" hidden>
+          <p class="hint" data-i18n="image.noneHint">A clean QR code with no image in the middle.</p>
+        </div>
+
+        <div class="image-panel" data-panel="upload" hidden>
+          <div class="logo-upload" id="logoUpload">
+            <input type="file" id="logoInput" accept="image/*" aria-label="Upload image" data-i18n-attr="aria-label:image.uploadAria">
+            <div class="hint" data-i18n="image.uploadHint">📷 Click or drop an image here<br>It is blended into the QR pattern and never leaves your device</div>
+          </div>
+          <div class="logo-preview" id="logoPreview" hidden>
+            <img id="logoImg" alt="">
+            <button type="button" class="remove-logo" id="removeLogo" data-i18n="image.remove">✕ Remove</button>
+          </div>
+        </div>
+
+        <div class="image-panel" data-panel="google" hidden>
+          <div class="google-photo" id="googlePhotoBox"></div>
+        </div>
+
+        <div class="image-panel" data-panel="initials" hidden>
+          <div class="initials">
+            <div class="initials-preview">
+              <canvas id="avatarPreview" width="256" height="256" aria-hidden="true"></canvas>
+              <p class="hint" id="avatarMsg" hidden></p>
+            </div>
+            <div class="initials-controls">
+              <div class="field">
+                <label for="avatarFont" data-i18n="image.font">Font</label>
+                <select id="avatarFont"></select>
+              </div>
+              <div class="field">
+                <span class="label" data-i18n="image.colors">Colors</span>
+                <div class="swatches" id="avatarPalettes"></div>
+              </div>
+              <div class="field">
+                <label for="avatarBg" data-i18n="image.bg">Background color</label>
+                <div class="bg-row">
+                  <input type="color" id="avatarBg" value="#0b1a3a">
+                  <button type="button" class="btn btn-secondary btn-inline" id="avatarBgReset" data-i18n="image.bgReset">Use palette color</button>
+                </div>
+              </div>
+              <div class="field">
+                <label for="avatarSize" data-i18n="image.size">Size in the QR code</label>
+                <select id="avatarSize">
+                  <option value="normal" data-i18n="size.normal">Normal (center)</option>
+                  <option value="large" data-i18n="size.large">Large (center)</option>
+                  <option value="full" data-i18n="size.full">Full (behind the whole code)</option>
+                </select>
+                <p class="hint small" id="avatarSizeHint" data-i18n="size.fullHint" hidden>Artistic style: test-scan it with your phone before printing or sharing.</p>
+              </div>
+              <label class="check"><input type="checkbox" id="avatarRing"> <span data-i18n="image.ring">Decorative ring</span></label>
+              <button type="button" class="btn btn-secondary" id="avatarDownload" data-i18n="image.downloadAvatar">⬇ Download avatar PNG</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <h2 class="section-title" data-i18n="save.title">Save / restore</h2>
+        <div class="btn-grid">
+          <button type="button" class="btn btn-secondary" id="saveJsonBtn" data-i18n="save.json">💾 Save (JSON)</button>
+          <div class="file-btn">
+            <button type="button" class="btn btn-secondary" tabindex="-1" data-i18n="save.import">📂 Import JSON / CSV / vCard</button>
+            <input type="file" id="importInput" accept=".json,.csv,.vcf,.vcard,application/json,text/csv,text/vcard,text/x-vcard" aria-label="Import JSON, CSV or vCard (.vcf)" data-i18n-attr="aria-label:save.importAria">
+          </div>
+          <button type="button" class="btn btn-secondary" id="exportCsvBtn" data-i18n="save.csv">📄 Export CSV</button>
+          <button type="button" class="btn btn-danger" id="clearBtn" data-i18n="save.clear">🗑 Clear form</button>
+        </div>
+        <p class="hint small" data-i18n="save.hint">Files are saved to and read from your own device only.</p>
+      </section>
+    </main>
+
+    <!-- ===== QR PANEL (bottom sheet on mobile) ===== -->
+    <aside class="card qr-panel" id="qrPanel" aria-label="QR code">
+      <button type="button" class="sheet-close" id="sheetClose" aria-label="Close" data-i18n-attr="aria-label:qr.close">✕</button>
+      <div class="qr-error" id="qrError" hidden></div>
+      <div class="qr-frame">
+        <div class="placeholder" id="placeholder">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.5" aria-hidden="true">
+            <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM18 18h3v3h-3z"/>
+          </svg>
+          <span data-i18n="qr.placeholder">Enter a name to generate<br>your QR code</span>
+        </div>
+        <canvas id="qrCanvas" hidden></canvas>
+      </div>
+
+      <div class="meter" aria-live="polite">
+        <div class="meter-bar"><span id="meterFill"></span></div>
+        <div class="meter-text" id="meterText"></div>
+      </div>
+
+      <button type="button" class="btn" id="downloadBtn" disabled data-i18n="qr.png">⬇ Download PNG</button>
+      <button type="button" class="btn btn-secondary" id="downloadVcfBtn" disabled data-i18n="qr.vcf">⬇ Download .vcf</button>
+
+      <div class="ec-row">
+        <label for="ecSelect" data-i18n="qr.ec">Error correction</label>
+        <select id="ecSelect">
+          <option value="auto" data-i18n="qr.ecAuto">Auto (H with image, M without)</option>
+          <option value="L" data-i18n="qr.ecL">L: 7%, most data</option>
+          <option value="M" data-i18n="qr.ecM">M: 15%</option>
+          <option value="Q" data-i18n="qr.ecQ">Q: 25%</option>
+          <option value="H" data-i18n="qr.ecH">H: 30%, most robust</option>
+        </select>
+      </div>
+      <div class="qr-note" data-i18n="qr.note">Encoded as vCard 3.0. Scan it with any iPhone or Android camera to add the contact.</div>
+    </aside>
+  </div>
+
+  <!-- ===== LIVE vCARD (last details on the page) ===== -->
+  <section class="vcard-live" aria-label="Live vCard">
+    <div class="vcard-live-head">
+      <h2 data-i18n="vcard.title">Live vCard</h2>
+      <span class="vcard-bytes" id="vcardBytes"></span>
+      <button type="button" class="btn btn-secondary btn-inline" id="copyVcardBtn" disabled data-i18n="vcard.copy">Copy</button>
+    </div>
+    <p class="hint" data-i18n="vcard.hint">This is exactly the text stored inside your QR code. It updates as you type.</p>
+    <pre id="vcardPreview" class="vcard-pre" dir="ltr"></pre>
+  </section>
+
+  <footer class="site-footer">
+    <p data-i18n="footer.idea">Original idea by <a href="https://dub.sh/eshai" target="_blank" rel="noopener noreferrer"><strong>Shai Ehud</strong></a></p>
+    <p class="small" data-i18n="footer.small">Plain JavaScript · runs entirely in your browser · nothing is uploaded</p>
+  </footer>
+</div>
+
+<!-- Mobile: sticky bar that opens the QR sheet -->
+<button type="button" class="mobile-bar" id="mobileBar" aria-label="Show QR code" data-i18n-attr="aria-label:mobile.aria">
+  <canvas id="qrThumb" width="96" height="96"></canvas>
+  <span class="mobile-bar-text"><strong data-i18n="mobile.title">Your QR code</strong><span id="mobileBarSub"></span></span>
+  <span class="btn btn-small" data-i18n="mobile.show">Show QR</span>
+</button>
+<div class="sheet-backdrop" id="sheetBackdrop"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
