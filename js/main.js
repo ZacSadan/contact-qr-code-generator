@@ -1,4 +1,5 @@
 // App bootstrap: wires form, image source, Google, QR rendering and storage.
+import './frame-guard.js'; // must stay first
 import { createEmptyModel } from './state.js';
 import { EC_LEVELS } from './fields-schema.js';
 import { buildVCard, utf8Length } from './vcard.js';

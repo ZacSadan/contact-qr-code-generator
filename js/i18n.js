@@ -268,7 +268,7 @@ const he = {
   'vcard.title': 'vCard בזמן אמת',
   'vcard.copy': 'העתקה',
   'vcard.hint': 'זה בדיוק הטקסט שנשמר בתוך קוד ה-QR. הוא מתעדכן תוך כדי הקלדה.',
-  'footer.idea': 'הרעיון המקורי: <a href="https://dub.sh/eshai" target="_blank" rel="noopener noreferrer"><strong>Shai Ehud</strong></a>',
+  'footer.idea': 'הרעיון המקורי: <a href="https://dub.sh/eshai" target="_blank" rel="noopener noreferrer"><strong>Shai Ehud</strong></a> · <a href="https://github.com/ZacSadan/qr" target="_blank" rel="noopener noreferrer">קישור ל-GitHub</a>',
   'footer.small': 'JavaScript פשוט · רץ כולו בדפדפן שלכם · שום דבר לא מועלה',
   'mobile.title': 'קוד ה-QR שלכם',
   'mobile.show': 'הצגת QR',

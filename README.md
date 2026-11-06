@@ -17,7 +17,7 @@ Turn your contact details into a QR code. Anyone can scan it with a normal phone
   - *Google photo*: your Google profile picture (needs Google sign-in)
   - *Upload*: your own image, blended into the QR pattern
   - *None*: a plain QR code
-- **Google sign-in (optional, read-only)** prefills name, email, organization and photo from your basic Google profile.
+- **Google sign-in (optional, read-only)** prefills name (incl. prefix, middle name, suffix, phonetic name and nickname), email, organization, websites, bio and photo from your basic Google profile. It only fills empty fields, and asks before replacing anything you typed.
 - **Live vCard view** shows the exact text inside the QR code as you type, with byte count and copy button.
 - **Capacity meter + error-correction control** (auto: H with an image, M without).
 - **Downloads**: QR as PNG, `.vcf` file, and save/restore as JSON. CSV export/import is compatible with the original single-file app.
@@ -72,7 +72,9 @@ js/state.js           contact model + normalisation of untrusted input
 js/form-ui.js         schema-driven form with repeatable rows
 js/vcard.js           pure vCard 3.0 builder (escaping, folding)
 js/vcard-parse.js     vCard 2.1/3.0/4.0 parser for .vcf import
-js/exif.js            writes the EXIF "date taken" for the Google Photos sharejs/qr-render.js       QR drawing + blended center image
+js/exif.js            writes the EXIF "date taken" for the Google Photos share
+js/frame-guard.js     clickjacking protection (refuses to run inside a frame)
+js/qr-render.js       QR drawing + blended center image
 js/image-source.js    none / upload / Google / initials picker
 js/avatar.js          initials monogram generator
 js/google.js          Google Identity Services + People API (read-only)
@@ -89,6 +91,8 @@ tests/                node:test unit tests
 - **Google access is read-only and minimal.** Only `openid email profile` are requested. The access token is kept in memory (never stored) and revoked on *Disconnect*.
 - **Content-Security-Policy** (meta tag) allows scripts only from this site, the pinned QR library on cdnjs and Google's sign-in client.
 - **Subresource Integrity**: the QR library is pinned to an exact version and SHA-384 hash.
+- **Clickjacking protection.** GitHub Pages can't send `X-Frame-Options` / `frame-ancestors` headers, so [`js/frame-guard.js`](js/frame-guard.js) stops the app when it is loaded inside another site's frame: it reloads as a normal page, or shows only a link to the real one.
+- **Imported vCard photos** that are online links are only fetched from Google's image servers (`*.googleusercontent.com`, as allowed by the CSP); other links are ignored.
 - **No HTML injection.** User input is only written via `value` / `textContent`, never `innerHTML`. Imported JSON/CSV is validated and normalised, and uploaded images must be `data:image/…` URLs.
 - No secrets or personal data are committed. `.gitignore` excludes contact files exported while testing.
 
@@ -107,7 +111,7 @@ The app has **no npm runtime dependencies** and no bundled third-party code. Eve
 
 | API | URL | Purpose |
 |---|---|---|
-| Google People API | `https://people.googleapis.com/v1/people/me` | Read name, email, organization, URLs, photo |
+| Google People API | `https://people.googleapis.com/v1/people/me` | Read name, nickname, email, organization, URLs, bio, photo |
 | Google OAuth2 userinfo | `https://www.googleapis.com/oauth2/v3/userinfo` | Fallback when People API is not enabled |
 | Google profile photo CDN | `https://*.googleusercontent.com` | Download the profile picture |
 
