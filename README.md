@@ -1,6 +1,6 @@
 # 📇 Contact QR Code Generator
 
-<h2 align="center">👉 <a href="https://zacsadan.github.io/qr/">Open the app: zacsadan.github.io/qr</a> 👈</h2>
+<h2 align="center">👉 <a href="https://zacsadan.github.io/contact-qr-code-generator/">Open the app: zacsadan.github.io/contact-qr-code-generator</a> 👈</h2>
 
 Turn your contact details into a QR code. Anyone can scan it with a normal phone camera, and their contacts app opens with all your details filled in. They just tap **Save**.
 
@@ -59,7 +59,7 @@ An OAuth **Client ID is public by design**: it is visible in every web page that
 
 ## GitHub Pages
 
-Live at **<https://zacsadan.github.io/qr/>**, deployed from branch `main`, folder `/ (root)` (**Settings → Pages**). Every push to `main` redeploys. All paths are relative, so it works under the `/qr/` sub-path. For Google sign-in, `https://zacsadan.github.io` must be in the OAuth client's authorized JavaScript origins.
+Live at **<https://zacsadan.github.io/contact-qr-code-generator/>**, deployed from branch `main`, folder `/ (root)` (**Settings → Pages**). Every push to `main` redeploys. All paths are relative, so it works under the `/contact-qr-code-generator/` sub-path. For Google sign-in, `https://zacsadan.github.io` must be in the OAuth client's authorized JavaScript origins.
 
 ## Project structure
 

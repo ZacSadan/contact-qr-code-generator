@@ -1,5 +1,5 @@
 {
-  "name": "contact-qr",
+  "name": "contact-qr-code-generator",
   "version": "1.0.0",
   "private": true,
   "description": "Contact QR code (vCard) generator. Plain JavaScript, runs entirely in the browser, ready for GitHub Pages.",
