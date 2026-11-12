@@ -15,6 +15,27 @@ export function createForm({ container, addSelect, getModel, onChange }) {
   const removeBtn = (label, onClick) =>
     h('button', { type: 'button', class: 'icon-btn', 'aria-label': label, title: label, onclick: onClick }, '✕');
 
+  // ↑ / ↓ buttons that swap row i with its neighbour (only when there is more than one row).
+  // After the rebuild, focus returns to the same button on the moved row.
+  const moveBtns = (list, i, key) => {
+    if (list.length < 2) return [];
+    const btn = (dir, symbol, label) => {
+      const j = i + dir;
+      const ref = `${key}-${dir < 0 ? 'up' : 'down'}`;
+      return h('button', {
+        type: 'button', class: 'icon-btn move-btn', 'aria-label': label, title: label, 'data-move': `${ref}-${i}`,
+        disabled: j < 0 || j >= list.length,
+        onclick: () => {
+          [list[i], list[j]] = [list[j], list[i]];
+          rebuild(); onChange();
+          const target = container.querySelector(`[data-move="${ref}-${j}"]`);
+          (target && !target.disabled ? target : container.querySelector(`[data-move^="${key}-"][data-move$="-${j}"]:not([disabled])`))?.focus();
+        },
+      }, symbol);
+    };
+    return [btn(-1, '↑', tr('form.moveUp')), btn(1, '↓', tr('form.moveDown'))];
+  };
+
   function singleSection(section, model) {
     const fields = SINGLE_FIELDS.filter(f => f.section === section.id && (!f.optional || model.visibleOptional.includes(f.key)));
     return h('div', { class: 'grid' }, fields.map(f => {
@@ -44,7 +65,8 @@ export function createForm({ container, addSelect, getModel, onChange }) {
           rebuild(); onChange();
         }))
         : label;
-      return h('div', { class: `field${f.type === 'textarea' ? ' span-all' : ''}` }, head, input, datalist);
+      const hint = f.hint ? h('p', { class: 'hint small field-hint' }, tr(`hint.${f.key}`, f.hint)) : null;
+      return h('div', { class: `field${f.type === 'textarea' ? ' span-all' : ''}` }, head, input, datalist, hint);
     }));
   }
 
@@ -58,7 +80,9 @@ export function createForm({ container, addSelect, getModel, onChange }) {
         'data-multi': `${def.key}-${i}`, 'aria-label': tr(`section.${def.key}`, SECTIONS.find(s => s.id === def.key)?.title || def.key),
         oninput: e => { row.value = e.target.value; onChange(); },
       }),
-      removeBtn(tr('form.remove'), () => { list.splice(i, 1); rebuild(); onChange(); }),
+      h('div', { class: 'row-actions' },
+        moveBtns(list, i, def.key),
+        removeBtn(tr('form.remove'), () => { list.splice(i, 1); rebuild(); onChange(); })),
     ));
     const add = h('button', {
       type: 'button', class: 'add-btn',
@@ -75,7 +99,9 @@ export function createForm({ container, addSelect, getModel, onChange }) {
     const blocks = model.addresses.map((a, i) => h('div', { class: 'address-block' },
       h('div', { class: 'address-head' },
         typeSelect('addresses', ADDRESS_TYPES, a.type, v => { a.type = v; onChange(); }, tr('form.addressType')),
-        removeBtn(tr('form.removeAddress'), () => { model.addresses.splice(i, 1); rebuild(); onChange(); })),
+        h('div', { class: 'row-actions' },
+          moveBtns(model.addresses, i, 'addresses'),
+          removeBtn(tr('form.removeAddress'), () => { model.addresses.splice(i, 1); rebuild(); onChange(); }))),
       h('div', { class: 'grid' }, ADDRESS_PARTS.map(p => {
         const id = `adr-${i}-${p.key}`;
         return h('div', { class: `field${p.wide ? ' span-all' : ''}` },

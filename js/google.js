@@ -148,7 +148,7 @@ function loadImage(src, cors = false) {
 }
 
 const SINGLE_KEYS = ['prefix', 'firstName', 'middleName', 'lastName', 'suffix', 'phoneticFirst', 'phoneticLast', 'nickname', 'company', 'department', 'jobTitle', 'notes'];
-const OPTIONAL_KEYS = ['phoneticFirst', 'phoneticLast', 'nickname', 'department'];
+const OPTIONAL_KEYS = ['phoneticFirst', 'phoneticLast', 'department'];
 
 /** Would merging overwrite anything the user typed? */
 export function hasConflicts(model, prof) {

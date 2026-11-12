@@ -37,7 +37,10 @@ export const SINGLE_FIELDS = [
     },
   },
   { key: 'birthday', section: 'name', label: 'Birthday', type: 'date' },
-  { key: 'nickname', section: 'name', label: 'Nickname', placeholder: 'Johnny', optional: true },
+  {
+    key: 'nickname', section: 'name', label: 'Nickname', placeholder: 'Johnny',
+    hint: 'For example, your name in another language, or what friends call you',
+  },
   { key: 'phoneticFirst', section: 'name', label: 'Phonetic first name', placeholder: '', optional: true },
   { key: 'phoneticLast', section: 'name', label: 'Phonetic last name', placeholder: '', optional: true },
 

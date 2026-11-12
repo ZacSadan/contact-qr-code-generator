@@ -186,7 +186,7 @@ input[type=date] { min-height: 40px; }
 
 .multi-row {
   display: grid;
-  grid-template-columns: 140px minmax(0, 1fr) 36px;
+  grid-template-columns: 140px minmax(0, 1fr) auto;
   gap: 8px;
   margin-bottom: 8px;
   align-items: center;
@@ -204,6 +204,9 @@ input[type=date] { min-height: 40px; }
   flex: none;
 }
 .icon-btn:hover { color: var(--danger); border-color: var(--danger); background: var(--danger-soft); }
+.row-actions { display: flex; gap: 4px; }
+.move-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+.move-btn:disabled { opacity: 0.35; cursor: default; color: var(--muted); border-color: var(--input-border); background: transparent; }
 .add-btn {
   background: none;
   border: 1px dashed var(--input-border);
@@ -225,7 +228,7 @@ input[type=date] { min-height: 40px; }
 }
 .address-head { display: flex; gap: 8px; margin-bottom: 10px; }
 .address-head .type-select { max-width: 160px; }
-.address-head .icon-btn { margin-inline-start: auto; }
+.address-head .row-actions { margin-inline-start: auto; }
 
 .add-field-select {
   margin-top: 18px;
@@ -314,6 +317,7 @@ input[type=date] { min-height: 40px; }
 
 .hint { color: var(--muted); font-size: 0.85rem; }
 .small { font-size: 0.78rem; margin-top: 8px; }
+.field .field-hint { margin-top: 4px; }
 
 /* ===== Center image ===== */
 .segmented {
@@ -572,10 +576,11 @@ input[type=date] { min-height: 40px; }
 
 @media (max-width: 560px) {
   .privacy-banner { flex-direction: column; gap: 8px; padding: 16px; }
-  .multi-row { grid-template-columns: minmax(0, 1fr) 40px; }
+  .multi-row { grid-template-columns: minmax(0, 1fr) auto; }
   .multi-row .type-select { grid-column: 1 / -1; }
   .multi-row input { grid-column: 1; }
-  .multi-row .icon-btn { grid-column: 2; grid-row: 2; width: 40px; height: 44px; }
+  .multi-row .row-actions { grid-column: 2; grid-row: 2; }
+  .multi-row .icon-btn { width: 40px; height: 44px; }
   .segmented { grid-template-columns: 1fr 1fr; }
   .initials { grid-template-columns: 1fr; justify-items: center; }
   .initials-controls { width: 100%; }

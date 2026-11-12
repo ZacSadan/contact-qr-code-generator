@@ -65,6 +65,8 @@ const en = {
   'form.type': 'Type',
   'form.addressType': 'Address type',
   'form.removeAddress': 'Remove address',
+  'form.moveUp': 'Move up',
+  'form.moveDown': 'Move down',
   'add.addresses': 'Add address',
 };
 
@@ -121,6 +123,8 @@ const he = {
   'form.type': 'סוג',
   'form.addressType': 'סוג כתובת',
   'form.removeAddress': 'הסרת כתובת',
+  'form.moveUp': 'הזזה למעלה',
+  'form.moveDown': 'הזזה למטה',
 
   'section.name': 'שם',
   'section.phones': 'מספרי טלפון',
@@ -156,6 +160,7 @@ const he = {
   'ph.firstName': 'ישראל',
   'ph.lastName': 'ישראלי',
   'ph.nickname': 'שרוליק',
+  'hint.nickname': 'למשל השם שלכם בשפה אחרת, או איך שחברים קוראים לכם',
   'ph.suffix': 'PhD',
   'ph.company': 'חברה בע״מ',
   'ph.department': 'מוצר',
